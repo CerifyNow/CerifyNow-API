@@ -23,7 +23,9 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-
+    'rest_framework',
+    'drf_spectacular',
+    'drf_spectacular_sidecar'
 ]
 
 LOCAL_APPS = [
@@ -44,6 +46,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'cerifynow.urls'
+
+AUTH_USER_MODEL = 'users.User'
 
 TEMPLATES = [
     {
@@ -88,6 +92,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',),
+
+    'DATETIME_INPUT_FORMATS': ['%d-%m-%Y %H:%M:%S', '%d-%m-%Y %-H:%M:%S'],
+    'DATE_INPUT_FORMATS': ['%d-%m-%Y %H:%M:%S', '%d-%m-%Y %-H:%M:%S'],
+    'DATETIME_FORMAT': '%d-%m-%Y %-H:%M:%S',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'CerifyNow API',
+    'DESCRIPTION': 'Verify Every Certificate or Qualification API',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SCHEMA_PATH_PREFIX': r'/api',
+    'COMPONENT_SPLIT_REQUEST': True
+}
+
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Tashkent'
@@ -107,13 +131,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 JAZZMIN_SETTINGS = {
     "site_header": "Administration",
 
-    "site_brand": "Metsenat API",
+    "site_brand": "Cerify API",
 
-    "site_logo": "../media/avatar/student/default-student.webp",
+    "welcome_sign": "Welcome to our Cerify System",
 
-    "welcome_sign": "Welcome to our Metsenat-API",
-
-    "search_model": ["auth.User", "apps.Product"],
+    "search_model": ["auth.User", "institutions.Institutions"],
 
     # applarni yashirish uchun
     "hide_apps": [],
@@ -129,16 +151,19 @@ JAZZMIN_SETTINGS = {
     ],
     # user iconka sin chiqarish uchun
     "usermenu_links": [
-        {"name": "Support", "url": "https://github.com/theMirmakhmudov", "new_window": True},
+        {"name": "Support", "url": "https://github.com/CerifyNow", "new_window": True},
         # {"model": "auth.user"},
     ],
-    "copyright": "Mr.Mirmakhmudov",
+    "copyright": "CerifyNow",
     "language_chooser": False,
     "show_ui_builder": True,
-    # "language_chooser": True,
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fa fa-layer-group",
-    'icons': {},
+    'icons': {
+        'institutions.Certificate': 'fa fa-file-pdf',
+        'institutions.Institution': 'fa fa-building-columns',
+        'users.User': 'fa fa-user'
+    },
 }
 
 JAZZMIN_UI_TWEAKS = {

@@ -9,6 +9,10 @@ class Settings(BaseSettings):
     db_password: str
     db_host: str
     db_port: int
+    infura_url: str
+    wallet_address: str
+    private_key: str
+    contract_address: str
 
     class Config:
         env_file = ".env"
