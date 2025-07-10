@@ -23,8 +23,4 @@ class CertificateSerializer(serializers.ModelSerializer):
             'id', 'institution', 'student', 'file',
             'document_type', 'issued_date', 'description', 'qr_code_url'
         ]
-
-    def get_qr_code_url(self, obj):
-        if obj.qr_code and hasattr(obj.qr_code, 'url'):
-            return obj.qr_code.url
-        return None
+        read_only_fields = ['hash', 'qr_code']
