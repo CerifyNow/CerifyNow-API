@@ -2,12 +2,16 @@ import uuid
 import hashlib
 from django.db import models
 from users.models import User
+from django.core.files import File
+from io import BytesIO
+import qrcode
 
 def get_file_hash(file_field):
     hasher = hashlib.sha256()
     for chunk in file_field.chunks():
         hasher.update(chunk)
     return hasher.hexdigest()
+
 
 class Institution(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -31,6 +35,7 @@ class Institution(models.Model):
     def __str__(self):
         return self.name
 
+
 class Certificate(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE, related_name='certificates')
@@ -49,7 +54,15 @@ class Certificate(models.Model):
             self.file.seek(0)
             self.hash = get_file_hash(self.file)
             self.file.seek(0)
-        super().save(*args, **kwargs)
 
-    def __str__(self):
-        return f"{self.document_type} — {self.student.get_full_name()} — {self.institution.name}"
+        # QR code faqat hash mavjud bo‘lsa va hali yaratilmagan bo‘lsa
+        if self.hash and not self.qr_code:
+            qr_data = f"http://127.0.0.1:8000/verify/{self.hash}"
+            qr_img = qrcode.make(qr_data)
+            buffer = BytesIO()
+            qr_img.save(buffer, format='PNG')
+            buffer.seek(0)
+            filename = f"qr_{self.hash[:10]}.png"
+            self.qr_code.save(filename, File(buffer), save=False)
+
+        super().save(*args, **kwargs)

@@ -95,11 +95,12 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',),
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
 
-    'DATETIME_INPUT_FORMATS': ['%d-%m-%Y %H:%M:%S', '%d-%m-%Y %-H:%M:%S'],
-    'DATE_INPUT_FORMATS': ['%d-%m-%Y %H:%M:%S', '%d-%m-%Y %-H:%M:%S'],
-    'DATETIME_FORMAT': '%d-%m-%Y %-H:%M:%S',
+    'DATETIME_INPUT_FORMATS': ['%d-%m-%Y %H:%M:%S'],
+    'DATE_INPUT_FORMATS': ['%d-%m-%Y'],
+    'DATETIME_FORMAT': '%d-%m-%Y %H:%M:%S',
 }
 
 SPECTACULAR_SETTINGS = {
