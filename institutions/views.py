@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework_simplejwt.tokens import RefreshToken
+from .permissions import CertificatePermissions, InstitutionPermissions
 
 from users.models import User
 from users.serializers import LoginSerializer
@@ -52,7 +53,7 @@ class LoginAPIView(APIView):
 
 
 class InstitutionReadAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, InstitutionPermissions]
     parser_classes = (MultiPartParser, FormParser, JSONParser)
 
     @extend_schema(
@@ -68,7 +69,7 @@ class InstitutionReadAPIView(APIView):
 
 
 class InstitutionCreateAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, InstitutionPermissions]
     parser_classes = (MultiPartParser, FormParser, JSONParser)
 
     @extend_schema(
@@ -90,7 +91,7 @@ class InstitutionCreateAPIView(APIView):
 
 
 class CertificateReadAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, CertificatePermissions]
     parser_classes = (MultiPartParser, FormParser, JSONParser)
 
     @extend_schema(
@@ -106,7 +107,7 @@ class CertificateReadAPIView(APIView):
 
 
 class CertificateCreateAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, CertificatePermissions]
     parser_classes = (MultiPartParser, FormParser, JSONParser)
 
     @extend_schema(
@@ -129,7 +130,7 @@ class CertificateCreateAPIView(APIView):
 
 
 class CertificateDetailAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.AllowAny, CertificatePermissions]
     parser_classes = (MultiPartParser, FormParser, JSONParser)
     @extend_schema(
         summary="Certificate Details API",
