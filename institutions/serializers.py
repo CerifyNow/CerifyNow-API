@@ -24,3 +24,13 @@ class CertificateSerializer(serializers.ModelSerializer):
             'document_type', 'issued_date', 'description', 'qr_code_url'
         ]
         read_only_fields = ['hash', 'qr_code']
+
+    def get_qr_code_url(self, obj):
+        request = self.context.get('request')
+        if obj.qr_code:
+            url = obj.qr_code.url
+            if request is not None:
+                return request.build_absolute_uri(url)
+            return url
+        return None
+
