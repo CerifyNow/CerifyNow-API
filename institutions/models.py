@@ -55,7 +55,6 @@ class Certificate(models.Model):
             self.hash = get_file_hash(self.file)
             self.file.seek(0)
 
-        # QR code faqat hash mavjud bo‘lsa va hali yaratilmagan bo‘lsa
         if self.hash and not self.qr_code:
             qr_data = f"http://127.0.0.1:8000/verify/{self.hash}"
             qr_img = qrcode.make(qr_data)
