@@ -95,6 +95,7 @@ jobs:
 
             # Restart Django via systemd
             echo "Restarting Django service..."
-            sudo systemctl restart django.service
+            sudo systemctl daemon-reload
+            sudo systemctl restart cerifynow.service
 
             echo "Successfully deployed!"

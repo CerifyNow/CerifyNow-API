@@ -10,7 +10,7 @@ SECRET_KEY = env.secret_key
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["188.166.179.23"]
 
 DJANGO_APPS = [
     'jazzmin',
